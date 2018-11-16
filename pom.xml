@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.0.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.free</groupId>
+    <artifactId>spring-boot</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>spring-boot-utils</module>
+        <module>spring-boot-dao</module>
+        <module>spring-boot-server</module>
+        <module>spring-boot-web</module>
+    </modules>
+
+    <properties>
+        <spring.boot.code.free.free.version>0.0.1-SNAPSHOT</spring.boot.code.free.free.version>
+        <!--<commons.lang3.version>3.8.1</commons.lang3.version>
+        <com.alibaba.fastjson.version>1.2.51</com.alibaba.fastjson.version>-->
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.free</groupId>
+            <artifactId>spring-boot-code</artifactId>
+            <version>${spring.boot.code.free.free.version}</version>
+        </dependency>
+        <!-- 引入redis -->
+        <!-- Spring Boot Redis 依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!--<dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons.lang3.version}</version>
+        </dependency>-->
+        <!--<dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${com.alibaba.fastjson.version}</version>
+        </dependency>-->
+    </dependencies>
+
+</project>
