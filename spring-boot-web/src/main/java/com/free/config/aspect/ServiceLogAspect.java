@@ -1,10 +1,11 @@
 package com.free.config.aspect;
 
 import com.alibaba.fastjson.JSON;
+import com.free.code.utils.IpAddrUtils;
+import com.free.code.utils.RequestWrapper;
 import com.free.dao.model.ServerLog;
 import com.free.service.system.ServerLogService;
 import com.free.utils.DateUtils;
-import com.free.utils.IpAddrUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
@@ -15,7 +16,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.InputStream;
+import java.io.IOException;
 import java.util.Date;
 
 @Aspect
@@ -35,43 +36,62 @@ public class ServiceLogAspect {
 
     }
 
-    //请求method前打印内容
     @Before(value = "controllerAspect()")
     public void methodBefore(JoinPoint joinPoint){
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
         //打印请求内容
-        logger.info(">>>>>>>>>>>>>>> 请求内容  start <<<<<<<<<<<<<<<");
         logger.info("请求地址:"+request.getRequestURL().toString());
         logger.info("请求方式:"+request.getMethod());
         logger.info("请求类方法:"+joinPoint.getSignature());
-        logger.info("请求类方法参数:"+ JSON.toJSONString(joinPoint.getArgs()));
-        logger.info(">>>>>>>>>>>>>>> 请求内容  end <<<<<<<<<<<<<<<");
+        try {
+            RequestWrapper requestWrapper = new RequestWrapper(request);
+            String body = requestWrapper.getBody();
+            logger.info("请求类方法参数 : \n" + body);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    //在方法执行完结后打印返回内容
+
     @AfterReturning(returning = "resultObject",pointcut = "controllerAspect()")
     public void methodAfterReturing(Object resultObject){
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = requestAttributes.getRequest();
-        Date startTime = DateUtils.parse(DateUtils.DATE_TIME_PATTERN,
-                String.valueOf(request.getAttribute("startTime")));
-        long consumingTime = new Date().getTime() - startTime.getTime();
-        ServerLog serverLog = new ServerLog();
-
-        serverLog.setClientIp(IpAddrUtils.getIpAddr(request));
-        serverLog.setServerIp(IpAddrUtils.getServerIp());
-        serverLog.setServerPost(String.valueOf(request.getLocalPort()));
-        serverLog.setRequestMethod(request.getMethod());
-        serverLog.setRequestUrl(request.getRequestURI());
-        serverLog.setRequestParam(JSON.toJSONString(request.getContextPath()));
-        serverLog.setConsumingTime(consumingTime);
-        serverLog.setResponseBody(JSON.toJSONString(resultObject));
-
-        serverLogService.saveServerLog(serverLog);
-        logger.info(">>>>>>>>>>>>>>> 返回内容 <<<<<<<<<<<<<<<");
-        logger.info("server log 内容:"+ JSON.toJSONString(serverLog));
         logger.info("Response内容:"+ JSON.toJSONString(resultObject));
-        logger.info(">>>>>>>>>>>>>>> 返回内容 <<<<<<<<<<<<<<<");
     }
+
+    @After("controllerAspect()")
+    public void doAfter(JoinPoint point) {
+        try {
+            ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            HttpServletRequest request = requestAttributes.getRequest();
+            // 计算接口耗时
+            Date startTime = DateUtils.parse(DateUtils.DATE_TIME_PATTERN,
+                    String.valueOf(request.getAttribute("startTime")));
+            long consumingTime = new Date().getTime() - startTime.getTime();
+            // 获取请求的body
+            RequestWrapper requestWrapper = new RequestWrapper(request);
+            String body = requestWrapper.getBody();
+
+            ServerLog serverLog = new ServerLog();
+            serverLog.setClientIp(IpAddrUtils.getIpAddr(request));
+            serverLog.setServerIp(IpAddrUtils.getServerIp());
+            serverLog.setServerPost(String.valueOf(request.getLocalPort()));
+            serverLog.setRequestMethod(request.getMethod());
+            serverLog.setRequestUrl(request.getRequestURI());
+            serverLog.setRequestParam(JSON.toJSONString(body));
+            serverLog.setConsumingTime(consumingTime);
+            serverLog.setResponseBody(point.getArgs().toString());
+
+            logger.info(" Thread is id : " , Thread.currentThread().getId());
+            logger.info(" Thread is name : " , Thread.currentThread().getName());
+            serverLogService.saveServerLog(serverLog);
+        } catch (Exception ex) {
+            logger.info(">>>>>>>>>>>>>>> 记录日志到数据库异常 <<<<<<<<<<<<<");
+        }
+    }
+//
+//    @AfterThrowing
+//    public void doAfterThrowing() {
+//
+//    }
 
 }

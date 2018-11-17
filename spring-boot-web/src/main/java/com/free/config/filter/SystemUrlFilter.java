@@ -2,6 +2,7 @@ package com.free.config.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.free.code.constant.ResultSuccess;
+import com.free.code.utils.RequestWrapper;
 import com.free.code.utils.ResultMessageUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +22,12 @@ public class SystemUrlFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-
         HttpServletRequest request = (HttpServletRequest)servletRequest;
-//        HttpServletResponse response = (HttpServletResponse)servletResponse;
-        String urlLength = request.getRequestURI().substring(request.getRequestURI().length()-4,request.getRequestURI().length());
+        RequestWrapper requestWrapper = new RequestWrapper(request);
+        String url = requestWrapper.getRequestURI();
+        String urlLength = url.substring(url.length()-4,url.length());
         if (".htm".equals(urlLength)) {
-            filterChain.doFilter(servletRequest, servletResponse);
+            filterChain.doFilter(requestWrapper, servletResponse);
         } else {
             servletResponse.setCharacterEncoding("UTF-8");
             PrintWriter writer = servletResponse.getWriter();
@@ -34,5 +35,4 @@ public class SystemUrlFilter implements Filter {
             writer.flush();
         }
     }
-
 }
