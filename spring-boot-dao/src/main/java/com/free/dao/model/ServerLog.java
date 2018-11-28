@@ -28,6 +28,8 @@ public class ServerLog implements Serializable {
 
     private String responseBody;
 
+    private String executeStatus;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -126,6 +128,14 @@ public class ServerLog implements Serializable {
         this.responseBody = responseBody == null ? null : responseBody.trim();
     }
 
+    public String getExecuteStatus() {
+        return executeStatus;
+    }
+
+    public void setExecuteStatus(String executeStatus) {
+        this.executeStatus = executeStatus == null ? null : executeStatus.trim();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -144,6 +154,7 @@ public class ServerLog implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", requestParam=").append(requestParam);
         sb.append(", responseBody=").append(responseBody);
+        sb.append(", executeStatus=").append(executeStatus);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -9,6 +9,7 @@
     <result column="server_ip" property="serverIp" jdbcType="VARCHAR" />
     <result column="server_post" property="serverPost" jdbcType="VARCHAR" />
     <result column="request_url" property="requestUrl" jdbcType="VARCHAR" />
+    <result column="execute_status" property="executeStatus" jdbcType="VARCHAR" />
     <result column="request_method" property="requestMethod" jdbcType="VARCHAR" />
     <result column="consuming_time" property="consumingTime" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -171,6 +172,9 @@
       <if test="responseBody != null" >
         response_body,
       </if>
+      <if test="executeStatus != null" >
+        execute_status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -208,6 +212,9 @@
       </if>
       <if test="responseBody != null" >
         #{responseBody,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="executeStatus != null" >
+        #{executeStatus,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

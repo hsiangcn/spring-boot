@@ -20,11 +20,6 @@ public class ServerLogServiceImpl implements ServerLogService {
     @Async
     @Override
     public void saveServerLog(ServerLog serverLog) {
-        logger.info("异步执行日志插入数据库操作");
-        logger.info(" Thread is id : " , Thread.currentThread().getId());
-        logger.info(" Thread is name : " , Thread.currentThread().getName());
         serverLogMapper.insertSelective(serverLog);
-
-
     }
 }

@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: sit
+
+  # 数据库链接配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSourceC3P0Adapter
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.52.143:3306/free?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: 123456
+
+  # redis 配置
+  redis:
+    # 配置数据库，默认为0
+    database: 0
+    # 链接服务器地址
+    host: 192.168.52.143
+    # 端口
+    port: 6379
+    # 服务器链接密码，默认为空
+    password:
+
+# 配置上下文环境
+server:
+  # 修改端口
+  port: 7200

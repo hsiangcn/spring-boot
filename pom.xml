@@ -18,13 +18,11 @@
         <module>spring-boot-utils</module>
         <module>spring-boot-dao</module>
         <module>spring-boot-server</module>
-        <module>spring-boot-web</module>
+        <module>spring-boot-service</module>
     </modules>
 
     <properties>
         <spring.boot.code.free.free.version>0.0.1-SNAPSHOT</spring.boot.code.free.free.version>
-        <!--<commons.lang3.version>3.8.1</commons.lang3.version>
-        <com.alibaba.fastjson.version>1.2.51</com.alibaba.fastjson.version>-->
     </properties>
 
     <dependencies>
@@ -39,16 +37,36 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons.lang3.version}</version>
-        </dependency>-->
-        <!--<dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>${com.alibaba.fastjson.version}</version>
-        </dependency>-->
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <spring.profiles.active>dev</spring.profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>sit</id>
+            <properties>
+                <spring.profiles.active>sit</spring.profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>per</id>
+            <properties>
+                <spring.profiles.active>per</spring.profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>product</id>
+            <properties>
+                <spring.profiles.active>product</spring.profiles.active>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

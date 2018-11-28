@@ -25,7 +25,15 @@ public class RedisUtils {
      * @return 值
      */
     public Object get(String key){
-        return StringUtils.isBlank(key) ?null:redisTemplate.opsForValue().get(key);
+        Object result = null;
+        try {
+            if (StringUtils.isNotBlank(key)) {
+                result = redisTemplate.opsForValue().get(key);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return result;
     }
 
     /**
