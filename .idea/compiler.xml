@@ -6,15 +6,26 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="spring-boot-code" />
         <module name="spring-boot-dao" />
         <module name="spring-boot-server" />
+        <module name="spring-boot-service" />
         <module name="spring-boot-utils" />
-        <module name="spring-boot-web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="spring-boot" target="1.8" />
+      <module name="spring-boot-dao" target="1.8" />
+      <module name="spring-boot-server" target="1.8" />
       <module name="spring-boot-service" target="1.8" />
+      <module name="spring-boot-utils" target="1.8" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="spring-boot-dao" options="-parameters" />
+      <module name="spring-boot-server" options="-parameters" />
+      <module name="spring-boot-service" options="-parameters" />
+      <module name="spring-boot-utils" options="-parameters" />
+    </option>
   </component>
 </project>

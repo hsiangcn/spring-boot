@@ -40,7 +40,7 @@
 
         <!-- jdbc连接 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://192.168.52.135:3306/free"
+                        connectionURL="jdbc:mysql://192.168.52.145:3306/guns"
                         userId="root"
                         password="123456" />
 
@@ -68,7 +68,7 @@
         <!-- table可以有多个,每个数据库中的表都可以写一个table，tableName表示要匹配的数据库表,
         也可以在tableName属性中通过使用%通配符来匹配所有数据库表,只有匹配的表才会自动生成文件 -->
         <!--如果想生成一个表则tableName="table_name"-->
-        <table schema="free" tableName="server_log" domainObjectName="ServerLog"
+        <table schema="guns" tableName="service_handler_config" domainObjectName="ServiceHandlerConfig"
                enableCountByExample="true"
                enableUpdateByExample="true"
                enableDeleteByExample="true"

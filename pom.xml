@@ -22,14 +22,14 @@
     </modules>
 
     <properties>
-        <spring.boot.code.free.free.version>0.0.1-SNAPSHOT</spring.boot.code.free.free.version>
+        <spring.boot.code.version>0.0.1-SNAPSHOT</spring.boot.code.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.free</groupId>
             <artifactId>spring-boot-code</artifactId>
-            <version>${spring.boot.code.free.free.version}</version>
+            <version>${spring.boot.code.version}</version>
         </dependency>
         <!-- 引入redis -->
         <!-- Spring Boot Redis 依赖 -->
